@@ -3,6 +3,7 @@ package com.imooc.service.impl;
 import com.imooc.dataobject.OrderDetail;
 import com.imooc.dataobject.OrderMaster;
 import com.imooc.dataobject.ProductInfo;
+import com.imooc.dto.CartDto;
 import com.imooc.dto.OrderDto;
 import com.imooc.enums.ResultEnum;
 import com.imooc.exception.SellException;
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -36,6 +40,7 @@ public class OrderServiceImpl implements OrderService {
 
         String orderId=KeyUtil.getUniqueKey();
         BigDecimal orderAmount=new BigDecimal(BigInteger.ZERO);
+//        List<CartDto> cartDtos=new ArrayList<>();
 
         //1.查询商品（数量，价格）
         for(OrderDetail orderDetail:orderDto.getOrderDetails()){
@@ -52,6 +57,9 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setDetailId(KeyUtil.getUniqueKey());
             BeanUtils.copyProperties(productInfo,orderDetail);
             orderDetailRepository.save(orderDetail);
+
+//            CartDto cartDto=new CartDto(orderDetail.getProductId(),orderDetail.getProductQuantity());
+//            cartDtos.add(cartDto);
         }
 
         //3.写入订单数据库（orderMaster）
@@ -61,8 +69,12 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderDto,orderMaster);
         orderMasterRepository.save(orderMaster);
         //4.减库存
-
-        return null;
+        List<CartDto> cartDtos=new ArrayList<>();
+        orderDto.getOrderDetails().stream()
+                .map(e -> new CartDto(e.getProductId(),e.getProductQuantity()))
+                .collect(Collectors.toList());
+        productService.delStock(cartDtos);
+        return orderDto;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.imooc.service.impl;
 
 import com.imooc.dataobject.ProductInfo;
+import com.imooc.dto.CartDto;
 import com.imooc.enums.ProductStatusEnum;
 import com.imooc.repository.ProductInfoRepository;
 import com.imooc.service.ProductService;
@@ -35,5 +36,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductInfo save(ProductInfo productInfo) {
         return repository.save(productInfo);
+    }
+
+    @Override
+    public void addStock(List<CartDto> cartDtos) {
+
+    }
+
+    @Override
+    public void delStock(List<CartDto> cartDtos) {
+
     }
 }
