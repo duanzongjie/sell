@@ -22,7 +22,6 @@ public interface ProductService {
     ProductInfo save(ProductInfo productInfo);
 
     //加库存
-    void addStock(List<>);
 
     //减库存
 
