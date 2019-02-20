@@ -31,4 +31,9 @@ public class OrderMasterRepositoryTest {
         Page<OrderMaster> masters=repository.findByBuyerOpenid("asad",pageRequest);
         masters.getTotalElements();
     }
+
+    @Test
+    public void save(){
+        //repository.save();
+    }
 }

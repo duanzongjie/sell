@@ -5,6 +5,8 @@ import com.imooc.dataobject.OrderMaster;
 import com.imooc.dataobject.ProductInfo;
 import com.imooc.dto.CartDto;
 import com.imooc.dto.OrderDto;
+import com.imooc.enums.OrderStatusEnum;
+import com.imooc.enums.PayStatusEnum;
 import com.imooc.enums.ResultEnum;
 import com.imooc.exception.SellException;
 import com.imooc.repository.OrderDetailRepository;
@@ -67,13 +69,15 @@ public class OrderServiceImpl implements OrderService {
 
         //3.写入订单数据库（orderMaster）
         OrderMaster orderMaster=new OrderMaster();
+        BeanUtils.copyProperties(orderDto,orderMaster);
         orderMaster.setOrderId(orderId);
         orderMaster.setOrderAmount(orderAmount);
-        BeanUtils.copyProperties(orderDto,orderMaster);
+        orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+        orderMaster.setPayStatus(PayStatusEnum.NOPAY.getCode());
         orderMasterRepository.save(orderMaster);
         //4.减库存
         List<CartDto> cartDtos=new ArrayList<>();
-        orderDto.getOrderDetails().stream()
+        cartDtos=orderDto.getOrderDetails().stream()
                 .map(e -> new CartDto(e.getProductId(),e.getProductQuantity()))
                 .collect(Collectors.toList());
         productService.delStock(cartDtos);
