@@ -17,6 +17,7 @@ import com.imooc.utils.KeyUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -86,11 +87,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findOneByOrderId(String orderId) {
-        return null;
+        OrderDto orderDto=new OrderDto();
+        OrderMaster orderMaster= orderMasterRepository.findOne(orderId);
+        if(null==orderMaster){
+            throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+        }
+        BeanUtils.copyProperties(orderMaster,orderDto);
+        List <OrderDetail> orderDetails=orderDetailRepository.findByOrderId(orderId);
+        if(orderDetails.isEmpty()){
+            throw new SellException(ResultEnum.DETAIL_NOT_EXIST);
+        }
+        orderDto.setOrderDetails(orderDetails);
+        return orderDto;
     }
 
     @Override
     public Page<OrderDto> findOrderList(String buyerOpenId, Pageable pageable) {
+        Page <OrderMaster> orderMaster=orderMasterRepository.findByBuyerOpenid(buyerOpenId,pageable);
+
         return null;
     }
 

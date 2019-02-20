@@ -3,6 +3,7 @@ package com.imooc.service.impl;
 import com.imooc.dataobject.OrderDetail;
 import com.imooc.dto.OrderDto;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void findOneByOrderId() {
+       OrderDto orderDto= orderService.findOneByOrderId("1550666587614295652");
+        Assert.assertNotNull(orderDto);
     }
 
     @Test

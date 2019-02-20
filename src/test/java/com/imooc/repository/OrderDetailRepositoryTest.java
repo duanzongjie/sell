@@ -21,7 +21,7 @@ public class OrderDetailRepositoryTest {
 
     @Test
     public void findByOrderId() {
-       List <OrderDetail> orderDetail=repository.findByOrderId("1");
+       List <OrderDetail> orderDetail=repository.findByOrderId("1550666312711753772");
         Assert.assertNotEquals(0,orderDetail.size());
     }
 }
