@@ -42,7 +42,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void addStock(List<CartDto> cartDtos) {
+        for(CartDto cartDto:cartDtos){
+            ProductInfo productInfo= repository.findOne(cartDto.getProductId());
+            if(null==productInfo){
+                throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+            }
+            productInfo.setProductStock(productInfo.getProductStock()+cartDto.getProductCount());
+            repository.save(productInfo);
+        }
 
     }
 
