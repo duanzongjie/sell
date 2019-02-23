@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
             if(null==productInfo){
                 throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
-            productInfo.setProductStock(productInfo.getProductStock()+cartDto.getProductCount());
+            productInfo.setProductStock(productInfo.getProductStock()+cartDto.getProductQuantity());
             repository.save(productInfo);
         }
 
@@ -63,10 +63,10 @@ public class ProductServiceImpl implements ProductService {
            if(null==productInfo){
                throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
            }
-           if(productInfo.getProductStock()<cartDto.getProductCount()){
+           if(productInfo.getProductStock()<cartDto.getProductQuantity()){
                throw  new SellException(ResultEnum.PRODUCT_NOT_ENOUGH);
            }
-            productInfo.setProductStock(productInfo.getProductStock()-cartDto.getProductCount());
+            productInfo.setProductStock(productInfo.getProductStock()-cartDto.getProductQuantity());
             repository.save(productInfo);
         }
     }

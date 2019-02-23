@@ -9,10 +9,10 @@ public class CartDto {
     private String productId;
 
     //数量
-    private Integer productCount;
+    private Integer productQuantity;
 
-    public CartDto(String productId, Integer productCount) {
+    public CartDto(String productId, Integer productQuantity) {
         this.productId = productId;
-        this.productCount = productCount;
+        this.productQuantity = productQuantity;
     }
 }

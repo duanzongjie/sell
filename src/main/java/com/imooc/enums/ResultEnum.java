@@ -21,7 +21,9 @@ public enum ResultEnum {
 
     ORDER_PAY_STATUS_ERR(24,"订单支付状态不正确"),
 
-    CART_IS_EMPTY(25,"购物车为空");
+    CART_IS_EMPTY(25,"购物车为空"),
+
+    ORDER_OWEN_ERROR(26,"微信号不对");
 
 
 

@@ -18,13 +18,13 @@ public class OrderForm2OrderDto {
     public static OrderDto convert(OrderForm orderForm){
         Gson gson=new Gson();
         OrderDto orderDto=new OrderDto();
-         orderDto.setBuyerOpenid(orderForm.getName());
+         orderDto.setBuyerOpenid(orderForm.getOpenid());
          orderDto.setBuyerPhone(orderForm.getPhone());
          orderDto.setBuyerAddress(orderForm.getAdress());
          orderDto.setBuyerName(orderForm.getName());
         List<OrderDetail> orderDetailList=new ArrayList<>();
          try{
-             gson.fromJson(orderForm.getItems(),new TypeToken<List<OrderDetail>>(){}.getType());
+             orderDetailList= gson.fromJson(orderForm.getItems(),new TypeToken<List<OrderDetail>>(){}.getType());
 
          }catch (Exception e){
              log.error("【对象转换异常】string={}",orderForm.getItems());
